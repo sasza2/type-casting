@@ -1,6 +1,6 @@
 import ERROR from '../errors'
 
-const validate = (value) => {
+export const validate = (value) => {
   const number = parseInt(value, 10)
   if (Number.isNaN(number)) return { value, error: ERROR.NOT_A_NUMBER }
   return null
