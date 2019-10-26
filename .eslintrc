@@ -9,6 +9,7 @@
   "parser": "babel-eslint",
   "rules": {
     "func-names": ["error", "never"],
+    "semi": 0,
     "import/prefer-default-export": 0,
     "no-unused-vars": [
       "error",
