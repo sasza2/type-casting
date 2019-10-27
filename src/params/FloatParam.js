@@ -7,7 +7,9 @@ export const validate = (value) => {
 }
 
 const FloatParam = (condition) => ({
-  validate: () => validate(condition),
+  validate: (value) => validate(value, condition),
 })
+
+FloatParam.options = (options) => FloatParam(options)
 
 export default FloatParam

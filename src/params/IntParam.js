@@ -6,8 +6,10 @@ export const validate = (value) => {
   return null
 }
 
-const IntParam = (condition) => ({
-  validate: () => validate(condition),
+const IntParam = (options) => ({
+  validate: (value) => validate(value, options),
 })
+
+IntParam.options = (options) => IntParam(options)
 
 export default IntParam

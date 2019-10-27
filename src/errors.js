@@ -8,9 +8,15 @@ const IS_EMPTY = {
   text: 'Is empty',
 }
 
+const NOT_AN_ARRAY = {
+  id: 3,
+  text: 'Not an array',
+}
+
 const ERROR = {
   NOT_A_NUMBER,
   IS_EMPTY,
+  NOT_AN_ARRAY,
 }
 
 export default ERROR

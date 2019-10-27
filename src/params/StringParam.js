@@ -5,8 +5,10 @@ export const validate = (value) => {
   return null
 }
 
-const StringParam = (condition) => ({
-  validate: () => validate(condition),
+const StringParam = (options) => ({
+  validate: (value) => validate(value, options),
 })
+
+StringParam.options = (options) => StringParam(options)
 
 export default StringParam
