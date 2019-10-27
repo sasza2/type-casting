@@ -6,14 +6,8 @@ export const validate = (value) => {
   return null
 }
 
-class IntParam {
-  constructor(conditions) {
-    this.conditions = conditions;
-  }
-
-  validate(value) {
-    return validate(value, this.conditions)
-  }
-}
+const IntParam = (condition) => ({
+  validate: () => validate(condition),
+})
 
 export default IntParam
