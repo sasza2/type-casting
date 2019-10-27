@@ -3,12 +3,12 @@ import ERROR from '../errors'
 
 export const validate = (value, type) => {
   if (!Array.isArray(value)) return { error: ERROR.NOT_AN_ARRAY, value }
-  const errors = value.reduce((list, curr) => {
+  const errors = value.reduce((list, curr, index) => {
     const error = type().validate(curr)
-    if (error) list.push(error)
+    if (error) list.push({ ...error, index })
     return list
   }, [])
-  return errors.length ? errors : null
+  return errors.length ? { error: errors, value } : null
 }
 
 const ArrayParam = (type) => (condition) => ({
