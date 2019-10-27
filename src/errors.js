@@ -13,10 +13,16 @@ const NOT_AN_ARRAY = {
   text: 'Not an array',
 }
 
+const NOT_AN_OBJECT = {
+  id: 4,
+  text: 'Not an object',
+}
+
 const ERROR = {
   NOT_A_NUMBER,
   IS_EMPTY,
   NOT_AN_ARRAY,
+  NOT_AN_OBJECT,
 }
 
 export default ERROR
