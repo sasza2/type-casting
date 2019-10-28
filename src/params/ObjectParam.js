@@ -3,10 +3,10 @@ import ERROR from '../errors'
 
 export const validate = (value, types) => {
   if (!value || typeof value !== 'object') return ERROR.NOT_AN_OBJECT
-  const errors = Object.keys(types).reduce((list, name, index) => {
+  const errors = Object.keys(types).reduce((list, name) => {
     const type = types[name]
     const error = type().validate(value[name])
-    if (error) list.push({ ...error, index })
+    if (error) list.push({ ...error, key: name })
     return list
   }, [])
   return errors.length ? { error: errors, value } : null
