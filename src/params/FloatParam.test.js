@@ -20,3 +20,19 @@ test('float validate required empty', () => {
   expect(number.validate('15.41')).toBeNull()
   expect(number.validate()).toMatchObject({ error: ERROR.REQUIRED_BUT_EMPTY })
 })
+
+test('float cast', () => {
+  const number = FloatParam()
+  expect(number.cast(555.44)).toEqual(555.44)
+  expect(number.cast(-3.44)).toEqual(-3.44)
+  expect(number.cast('15')).toEqual(15)
+  expect(number.cast('abc')).toEqual(0)
+  expect(number.cast()).toBeNull()
+})
+
+test('float cast required', () => {
+  const number = FloatParam.options({ required: true })
+  expect(number.cast()).toEqual(0)
+  expect(number.cast(0)).toEqual(0)
+  expect(number.cast(144)).toEqual(144)
+})

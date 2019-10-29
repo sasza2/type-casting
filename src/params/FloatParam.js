@@ -8,7 +8,13 @@ export const validate = (value, options = {}) => {
   return null
 }
 
+export const cast = (value, options = {}) => {
+  if (!options.required && (value === null || value === undefined)) return null
+  return parseFloat(value, 10) || 0
+}
+
 const FloatParam = (options) => ({
+  cast: (value) => cast(value, options),
   validate: (value) => validate(value, options),
 })
 
