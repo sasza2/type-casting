@@ -18,11 +18,17 @@ const NOT_AN_OBJECT = {
   text: 'Not an object',
 }
 
+const REQUIRED_BUT_EMPTY = {
+  id: 5,
+  text: 'value is required',
+}
+
 const ERROR = {
   NOT_A_NUMBER,
   IS_EMPTY,
   NOT_AN_ARRAY,
   NOT_AN_OBJECT,
+  REQUIRED_BUT_EMPTY,
 }
 
 export default ERROR

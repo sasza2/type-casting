@@ -1,5 +1,5 @@
 import ERROR from '../errors'
-import { validate } from './IntParam'
+import FloatParam, { validate } from './FloatParam'
 
 test('float validate numbers', () => {
   expect(validate(20.43)).toBeNull()
@@ -10,6 +10,13 @@ test('float validate numbers', () => {
 })
 
 test('float validate non numbers', () => {
-  expect(validate('fdfas')).toMatchObject({ error: ERROR.NOT_A_NUMBER, value: 'fdfas' })
-  expect(validate('a111231')).toMatchObject({ error: ERROR.NOT_A_NUMBER, value: 'a111231' })
+  expect(validate('fdfas')).toMatchObject({ error: ERROR.NOT_A_NUMBER })
+  expect(validate('a111231')).toMatchObject({ error: ERROR.NOT_A_NUMBER })
+})
+
+test('float validate required empty', () => {
+  const number = FloatParam.options({ required: true })
+  expect(number.validate(441.1)).toBeNull()
+  expect(number.validate('15.41')).toBeNull()
+  expect(number.validate()).toMatchObject({ error: ERROR.REQUIRED_BUT_EMPTY })
 })
