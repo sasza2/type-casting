@@ -8,7 +8,7 @@ export const validate = (value, options = {}) => {
 
 export const cast = (value, options = {}) => {
   if (!options.required && !value) return null
-  return value.toString()
+  return value ? value.toString() : ''
 }
 
 const StringParam = (options) => ({
