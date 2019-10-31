@@ -59,3 +59,8 @@ test('array validate bad array of int', () => {
   expect(validate([[5, 10], ['test'], [20, -11]], ArrayParam(IntParam))).toBeTruthy()
   expect(validate([[-3, '10', 'aa']], ArrayParam(IntParam))).toBeTruthy()
 })
+
+test('array validate', () => {
+  const number = ArrayParam(IntParam)() // TODO change to ArrayParam.of(IntParam)
+  expect(number.cast([441.1])).toMatchObject([441])
+})

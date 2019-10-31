@@ -18,7 +18,7 @@ export const cast = (value, type, options = {}) => {
   if (!Array.isArray(value)) return []
 
   return value
-    .map((curr) => type().validate(curr))
+    .map((curr) => type().cast(curr))
     .filter((curr) => curr !== null)
 }
 
