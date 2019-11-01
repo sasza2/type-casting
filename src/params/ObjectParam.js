@@ -1,19 +1,6 @@
 
 import ERROR from '../errors'
-import { invokeType } from './helpers'
-
-export const cast = (values, types, options = {}) => {
-  if (!options.required && (values === null || values === undefined)) return null
-  if (typeof values !== 'object') return {}
-
-  const result = {}
-  Object.keys(types).forEach((name) => {
-    const value = invokeType(types[name]).cast(values[name])
-    if (value !== null) result[name] = value
-  })
-
-  return result
-}
+import { invokeType, shouldBeOmit } from './helpers'
 
 export const validate = (values, types) => {
   if (!values || typeof values !== 'object') return ERROR.NOT_AN_OBJECT
@@ -24,6 +11,19 @@ export const validate = (values, types) => {
     return list
   }, [])
   return errors.length ? { error: errors } : null
+}
+
+export const cast = (values, types, options = {}) => {
+  if (shouldBeOmit(values, options)) return null
+  if (typeof values !== 'object') return {}
+
+  const result = {}
+  Object.keys(types).forEach((name) => {
+    const value = invokeType(types[name]).cast(values[name])
+    if (value !== null) result[name] = value
+  })
+
+  return result
 }
 
 const ObjectParam = (types, options = {}) => ({

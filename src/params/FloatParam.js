@@ -1,5 +1,7 @@
 import ERROR from '../errors'
-import { requiredButEmpty } from './helpers'
+import {
+  defaultEmptyValue, defaultValue, requiredButEmpty, shouldBeOmit,
+} from './helpers'
 
 export const validate = (value, options = {}) => {
   if (requiredButEmpty(value, options)) return { error: ERROR.REQUIRED_BUT_EMPTY }
@@ -9,8 +11,8 @@ export const validate = (value, options = {}) => {
 }
 
 export const cast = (value, options = {}) => {
-  if (!options.required && (value === null || value === undefined)) return null
-  return parseFloat(value, 10) || 0
+  if (shouldBeOmit(value, options)) return defaultEmptyValue(options, null)
+  return parseFloat(value, 10) || defaultValue(options, 0)
 }
 
 const FloatParam = (options) => ({

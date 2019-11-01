@@ -74,4 +74,6 @@ test('array cast required', () => {
   expect(number.cast(null)).toMatchObject([])
   const str = ArrayParam(StringParam.options({ required: true }))
   expect(str.cast(['aa', 'bb'])).toMatchObject(['aa', 'bb'])
+  const strDefault = ArrayParam(StringParam.options({ default: 'xyz' }))
+  expect(strDefault.cast([null, 'aa', null])).toMatchObject(['xyz', 'aa', 'xyz'])
 })

@@ -1,6 +1,6 @@
 
 import ERROR from '../errors'
-import { invokeType, requiredButEmpty } from './helpers'
+import { invokeType, requiredButEmpty, shouldBeOmit } from './helpers'
 
 export const validate = (value, type, options = {}) => {
   if (requiredButEmpty(value, options)) return { error: ERROR.REQUIRED_BUT_EMPTY }
@@ -14,7 +14,7 @@ export const validate = (value, type, options = {}) => {
 }
 
 export const cast = (value, type, options = {}) => {
-  if (!options.required && (value === null || value === undefined)) return null
+  if (shouldBeOmit(value, options)) return null
   if (!Array.isArray(value)) return []
 
   return value
