@@ -65,3 +65,13 @@ test('object validate user', () => {
     ),
   ).toBeNull()
 })
+
+test('object cast user', () => {
+  const user = ObjectParam({
+    id: IntParam,
+    name: StringParam,
+    email: StringParam.options({ required: true }),
+  })
+
+  expect(user.cast({ id: 1 })).toMatchObject({ id: 1, email: '' })
+})
