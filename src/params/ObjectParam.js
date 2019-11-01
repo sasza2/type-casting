@@ -1,11 +1,12 @@
 
 import ERROR from '../errors'
+import { invokeType } from './helpers'
 
 export const validate = (value, types) => {
   if (!value || typeof value !== 'object') return ERROR.NOT_AN_OBJECT
   const errors = Object.keys(types).reduce((list, name) => {
     const type = types[name]
-    const error = type().validate(value[name])
+    const error = invokeType(type).validate(value[name])
     if (error) list.push({ ...error, key: name })
     return list
   }, [])
