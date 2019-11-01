@@ -1,6 +1,6 @@
 
 import ERROR from '../errors'
-import { requiredButEmpty } from './helpers'
+import { paramWrapper, requiredButEmpty } from './helpers'
 
 export const validate = (value, type, options = {}) => {
   if (requiredButEmpty(value, options)) return { error: ERROR.REQUIRED_BUT_EMPTY }
@@ -22,9 +22,8 @@ export const cast = (value, type, options = {}) => {
     .filter((curr) => curr !== null)
 }
 
-const ArrayParam = (type) => (options) => ({
-  cast: (value) => cast(value, type, options),
-  validate: (value) => validate(value, type, options),
+const ArrayParam = (type, options) => paramWrapper({
+  cast, validate, type, options,
 })
 
 export default ArrayParam

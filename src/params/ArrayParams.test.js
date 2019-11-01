@@ -61,6 +61,6 @@ test('array validate bad array of int', () => {
 })
 
 test('array validate', () => {
-  const number = ArrayParam(IntParam)() // TODO change to ArrayParam.of(IntParam)
+  const number = ArrayParam(IntParam)
   expect(number.cast([441.1])).toMatchObject([441])
 })
