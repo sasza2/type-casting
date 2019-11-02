@@ -5,7 +5,7 @@ import {
 
 export const validate = (value, options = {}) => {
   if (requiredButEmpty(value, options)) return { error: ERROR.REQUIRED_BUT_EMPTY }
-  if (typeof value !== 'boolean') return { error: ERROR.NOT_A_NUMBER }
+  if (typeof value !== 'boolean') return { error: ERROR.NOT_A_BOOLEAN }
   return null
 }
 

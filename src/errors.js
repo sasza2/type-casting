@@ -23,12 +23,18 @@ const REQUIRED_BUT_EMPTY = {
   text: 'value is required',
 }
 
+const NOT_A_BOOLEAN = {
+  id: 6,
+  text: 'not a boolean',
+}
+
 const ERROR = {
   NOT_A_NUMBER,
   IS_EMPTY,
   NOT_AN_ARRAY,
   NOT_AN_OBJECT,
   REQUIRED_BUT_EMPTY,
+  NOT_A_BOOLEAN,
 }
 
 export default ERROR
