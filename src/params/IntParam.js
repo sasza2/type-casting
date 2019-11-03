@@ -6,7 +6,7 @@ import {
 export const validate = (value, options = {}) => {
   if (requiredButEmpty(value, options)) return { error: ERROR.REQUIRED_BUT_EMPTY }
   const number = parseInt(value, 10)
-  if (Number.isNaN(number)) return { value, error: ERROR.NOT_A_NUMBER }
+  if (Number.isNaN(number)) return { error: ERROR.NOT_A_NUMBER }
   return null
 }
 

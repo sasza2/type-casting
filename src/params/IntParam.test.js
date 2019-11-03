@@ -9,8 +9,8 @@ test('int validate numbers', () => {
 })
 
 test('int validate non numbers', () => {
-  expect(validate('abc')).toMatchObject({ error: ERROR.NOT_A_NUMBER, value: 'abc' })
-  expect(validate('n700')).toMatchObject({ error: ERROR.NOT_A_NUMBER, value: 'n700' })
+  expect(validate('abc')).toMatchObject({ error: ERROR.NOT_A_NUMBER })
+  expect(validate('n700')).toMatchObject({ error: ERROR.NOT_A_NUMBER })
 })
 
 test('int cast', () => {

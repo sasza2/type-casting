@@ -4,13 +4,13 @@ import { invokeType, requiredButEmpty, shouldBeOmit } from './helpers'
 
 export const validate = (value, type, options = {}) => {
   if (requiredButEmpty(value, options)) return { error: ERROR.REQUIRED_BUT_EMPTY }
-  if (!Array.isArray(value)) return { error: ERROR.NOT_AN_ARRAY, value }
+  if (!Array.isArray(value)) return { error: ERROR.NOT_AN_ARRAY }
   const errors = value.reduce((list, curr, index) => {
     const error = invokeType(type).validate(curr)
     if (error) list.push({ ...error, index })
     return list
   }, [])
-  return errors.length ? { error: errors, value } : null
+  return errors.length ? { errors } : null
 }
 
 export const cast = (value, type, options = {}) => {

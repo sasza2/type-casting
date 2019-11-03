@@ -1,40 +1,10 @@
-const NOT_A_NUMBER = {
-  id: 1,
-  text: 'Not a number',
-}
-
-const IS_EMPTY = {
-  id: 2,
-  text: 'Is empty',
-}
-
-const NOT_AN_ARRAY = {
-  id: 3,
-  text: 'Not an array',
-}
-
-const NOT_AN_OBJECT = {
-  id: 4,
-  text: 'Not an object',
-}
-
-const REQUIRED_BUT_EMPTY = {
-  id: 5,
-  text: 'value is required',
-}
-
-const NOT_A_BOOLEAN = {
-  id: 6,
-  text: 'not a boolean',
-}
-
 const ERROR = {
-  NOT_A_NUMBER,
-  IS_EMPTY,
-  NOT_AN_ARRAY,
-  NOT_AN_OBJECT,
-  REQUIRED_BUT_EMPTY,
-  NOT_A_BOOLEAN,
+  NOT_A_NUMBER: 'NOT_A_NUMBER',
+  IS_EMPTY: 'IS_EMPTY',
+  NOT_AN_ARRAY: 'NOT_AN_ARRAY',
+  NOT_AN_OBJECT: 'NOT_AN_OBJECT',
+  REQUIRED_BUT_EMPTY: 'REQUIRED_BUT_EMPTY',
+  NOT_A_BOOLEAN: 'NOT_A_BOOLEAN',
 }
 
 export default ERROR

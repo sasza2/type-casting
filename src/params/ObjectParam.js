@@ -10,7 +10,7 @@ export const validate = (values, types) => {
     if (error) list.push({ ...error, key: name })
     return list
   }, [])
-  return errors.length ? { error: errors } : null
+  return errors.length ? { errors } : null
 }
 
 export const cast = (values, types, options = {}) => {
