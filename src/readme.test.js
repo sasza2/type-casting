@@ -97,3 +97,52 @@ test('example object', () => {
 
   expect(video.cast(obj)).toMatchObject(obj)
 })
+
+test('example object own model', () => {
+  Param.set('Address', Param.Object({
+    city: Param.String,
+    street: Param.String,
+  }))
+
+  Param.set('Author', Param.Object({
+    fullname: Param.String,
+    address: Param.Address,
+  }))
+
+  Param.set('Authors', Param.Array(Param.Author))
+
+  Param.set('Video', Param.Object({
+    id: Param.Int({ required: true }),
+    name: Param.String,
+    length: Param.Int,
+    authors: Param.Authors,
+  }))
+
+  const obj = {
+    id: 5,
+    name: 'abc',
+    length: 6000, // ms
+    authors: [
+      {
+        fullname: 'aaa',
+        address: {
+          city: 'Qwerty',
+          street: 'West',
+        },
+      },
+      {
+        fullname: 'bbb',
+      },
+    ],
+  }
+
+  expect(Param.Video.cast(obj)).toMatchObject(obj)
+})
+
+test('example string', () => {
+  const string = Param.String({ required: true })
+  expect(string.cast()).toEqual('')
+  expect(string.cast(55)).toEqual('55')
+  expect(string.cast('aaa')).toEqual('aaa')
+  expect(string.validate()).toMatchObject({ error: ERROR.REQUIRED_BUT_EMPTY })
+})

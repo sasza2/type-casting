@@ -5,7 +5,7 @@ Library for casting and validating data.
 ## Example
 
 ```js
-import Factory, { Param }
+import Factory, { Param } from 'type-casting'
 
 const user = Factory({
   id: Param.Int({ required: true }),
@@ -23,17 +23,20 @@ console.log(user.cast({
 ```
 
 ## API
-Library is exporting two modules `Factory` and `Param`.
+Library is exporting three modules:
+- Factory
+- Param
+- ERROR
 
-### Factory methods
-- `cast(any)` - converting to specified type
-- `validate(any)` - validating specified type
+### `Factory methods`
+- cast(any) - converting to specified type
+- validate(any) - validating specified type
 
-### Param.Array
+### `Param.Array`
 ```js
 const list = Param.Array(Param.Int({ default: 3, required: true }))
 // 5, 3, 6
-console.log(list.cast([5, 'aaa', 6]))
+list.cast([5, 'aaa', 6])
 /*
 { 
   errors: [
@@ -42,54 +45,106 @@ console.log(list.cast([5, 'aaa', 6]))
   ]
 }
 */
-console.log(list.validate([4, 'aa', 5, null]))
+list.validate([4, 'aa', 5, null])
 ```
 
-### Param.Bool
+### `Param.Bool`
 ```js
 const bool = Param.Bool({ default: true })
-console.log(bool.cast()) // true
-console.log(bool.validate()) // { 'error': 'NOT_A_BOOLEAN' }
-
+bool.cast() // true
+bool.validate() // { 'error': 'NOT_A_BOOLEAN' }
 ```
 
-### Param.Float
+### `Param.Float`
 ```js
 const float = Param.Float()
-console.log(float.cast('14.5')) // 14.5
-console.log(float.validate('abc')) // { 'error': 'NOT_A_NUMBER' }
-console.log(float.validate(500.43)) // null
+float.cast('14.5') // 14.5
+float.validate('abc') // { 'error': 'NOT_A_NUMBER' }
+float.validate(500.43) // null
 ```
 
-### Param.Int
+### `Param.Int`
 ```js
 const int = Param.Int({ required: true })
-console.log(int.cast()) // 0
-console.log(int.cast(55)) // 55
-console.log(int.validate('abcdef')) // { 'error': 'NOT_A_NUMBER' }
+int.cast() // 0
+int.cast(55) // 55
+int.validate('abcdef') // { 'error': 'NOT_A_NUMBER' }
 ```
 
-### Params.Object
+### `Param.Object`
 ```js
-import Factory, { Param }
+import Factory, { Param } from 'type-casting'
 
 const video = Factory({
   id: Param.Int({ required: true }),
   name: Param.String,
   length: Param.Int,
-  authors: Param.Array({
+  authors: Param.Array(Param.Object({
     fullname: Param.String,
     address: Param.Object({
       city: Param.String,
       street: Param.String,
-    })
-  })
+    }),
+  })),
 })
 
-console.log(user.cast({
-  id: 5,
-  name: 'abc'
-}))
+video.cast(...)
+video.validate(...)
 ```
 
-### String
+or params could be defined as:
+
+```js
+import { Param } from 'type-casting'
+
+Param.set('Address', Param.Object({
+  city: Param.String,
+  street: Param.String,
+}))
+
+Param.set('Author', Param.Object({
+  fullname: Param.String,
+  address: Param.Address,
+}))
+
+Param.set('Authors', Param.Array(Param.Author))
+
+Param.set('Video', Param.Object({
+  id: Param.Int({ required: true }),
+  name: Param.String,
+  length: Param.Int,
+  authors: Param.Authors,
+}))
+
+Param.Video.cast(...)
+```
+
+### `Param.String`
+```js
+const string = Param.String({ required: true })
+string.cast() // ''
+string.cast(55) // '55'
+string.cast('aaa') // 'aaa'
+string.validate() // { error: ERROR.REQUIRED_BUT_EMPTY }
+```
+
+### `Param.set`
+```js
+Param.set('name', Param)
+```
+
+### `ERROR`
+```js
+NOT_A_NUMBER,
+IS_EMPTY,
+NOT_AN_ARRAY,
+NOT_AN_OBJECT,
+REQUIRED_BUT_EMPTY,
+NOT_A_BOOLEAN,
+NOT_PARAM_TYPE,
+```
+
+## Testing
+```
+npm run test
+```
