@@ -1,16 +1,22 @@
 
 import ERROR from '../errors'
-import { invokeType, shouldBeOmit } from './helpers'
+import { invokeType, isParam, shouldBeOmit } from './helpers'
 
 export const validate = (values, types) => {
   if (!values || typeof values !== 'object') return ERROR.NOT_AN_OBJECT
   const errors = Object.keys(types).reduce((list, name) => {
     const type = types[name]
-    const error = invokeType(type).validate(values[name])
+    const toType = invokeType(type)
+    if (!isParam(toType)) {
+      list.push({ error: ERROR.NOT_PARAM_TYPE, key: name })
+      return list
+    }
+
+    const error = toType.validate(values[name])
     if (error) list.push({ ...error, key: name })
     return list
   }, [])
-  return errors.length ? { errors } : null
+  return errors.length ? { error: errors } : null
 }
 
 export const cast = (values, types, options = {}) => {
@@ -19,7 +25,10 @@ export const cast = (values, types, options = {}) => {
 
   const result = {}
   Object.keys(types).forEach((name) => {
-    const value = invokeType(types[name]).cast(values[name])
+    const toType = invokeType(types[name])
+    if (!isParam(toType)) return
+
+    const value = toType.cast(values[name])
     if (value !== null) result[name] = value
   })
 

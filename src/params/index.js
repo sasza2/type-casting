@@ -5,6 +5,12 @@ import ObjectParam from './ObjectParam'
 import StringParam from './StringParam'
 import BoolParam from './BoolParam'
 
+const definedParams = {}
+
+const setParam = (name, param) => {
+  definedParams[name] = param
+}
+
 const Param = {
   array: ArrayParam,
   Array: ArrayParam,
@@ -18,6 +24,8 @@ const Param = {
   Object: ObjectParam,
   string: StringParam,
   String: StringParam,
+  ...definedParams,
+  set: setParam,
 }
 
 export default Param

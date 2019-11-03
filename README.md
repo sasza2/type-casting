@@ -29,9 +29,9 @@ Library is exporting two modules `Factory` and `Param`.
 - `cast(any)` - converting to specified type
 - `validate(any)` - validating specified type
 
-### Array
+### Param.Array
 ```js
-const list = ArrayParam(IntParam({ default: 3, required: true }))
+const list = Param.Array(Param.Int({ default: 3, required: true }))
 // 5, 3, 6
 console.log(list.cast([5, 'aaa', 6]))
 /*
@@ -45,37 +45,47 @@ console.log(list.cast([5, 'aaa', 6]))
 console.log(list.validate([4, 'aa', 5, null]))
 ```
 
-### Bool
+### Param.Bool
 ```js
-const bool = Bool({ default: true })
+const bool = Param.Bool({ default: true })
 console.log(bool.cast()) // true
+console.log(bool.validate()) // { 'error': 'NOT_A_BOOLEAN' }
+
 ```
 
-### Float
+### Param.Float
 ```js
-const float = Float()
+const float = Param.Float()
 console.log(float.cast('14.5')) // 14.5
+console.log(float.validate('abc')) // { 'error': 'NOT_A_NUMBER' }
+console.log(float.validate(500.43)) // null
 ```
 
-### Int
+### Param.Int
 ```js
-const int = Int({ required: true })
+const int = Param.Int({ required: true })
 console.log(int.cast()) // 0
+console.log(int.cast(55)) // 55
+console.log(int.validate('abcdef')) // { 'error': 'NOT_A_NUMBER' }
 ```
 
-### Object
+### Params.Object
 ```js
 import Factory, { Param }
 
-const user = Factory({
+const video = Factory({
   id: Param.Int({ required: true }),
   name: Param.String,
-  surname: Param.String({ required: true }),
-  newsletter: Param.Bool({ default: true }),
-  age: Param.Int,
+  length: Param.Int,
+  authors: Param.Array({
+    fullname: Param.String,
+    address: Param.Object({
+      city: Param.String,
+      street: Param.String,
+    })
+  })
 })
 
-// Print { id: 5, name: "abc", surname: "", newsletter: true }
 console.log(user.cast({
   id: 5,
   name: 'abc'

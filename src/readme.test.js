@@ -33,3 +33,67 @@ test('example array', () => {
     ],
   })
 })
+
+test('example bool', () => {
+  const bool = Param.Bool({ default: true })
+  expect(bool.cast()).toBeTruthy()
+  expect(bool.validate()).toMatchObject({ error: ERROR.NOT_A_BOOLEAN })
+})
+
+test('example float', () => {
+  const float = Param.Float()
+  expect(float.cast('14.5')).toEqual(14.5)
+  expect(float.validate('abc')).toMatchObject({ error: ERROR.NOT_A_NUMBER })
+  expect(float.validate(500.43)).toBeNull()
+})
+
+test('example int', () => {
+  const int = Param.Int({ required: true })
+  expect(int.cast()).toEqual(0)
+  expect(int.cast(55)).toEqual(55)
+  expect(int.validate('abcdef')).toMatchObject({ error: ERROR.NOT_A_NUMBER })
+})
+
+test('example object address', () => {
+  const address = Param.Object({
+    city: Param.String,
+    street: Param.String,
+  })
+
+  expect(address.cast({ city: 'aa', street: 'bb' })).toMatchObject({ city: 'aa', street: 'bb' })
+})
+
+test('example object', () => {
+  const video = Factory({
+    id: Param.Int({ required: true }),
+    name: Param.String,
+    length: Param.Int,
+    authors: Param.Array(Param.Object({
+      fullname: Param.String,
+      address: Param.Object({
+        city: Param.String,
+        street: Param.String,
+      }),
+    })),
+  })
+
+  const obj = {
+    id: 5,
+    name: 'abc',
+    length: 6000, // ms
+    authors: [
+      {
+        fullname: 'aaa',
+        address: {
+          city: 'Qwerty',
+          street: 'West',
+        },
+      },
+      {
+        fullname: 'bbb',
+      },
+    ],
+  }
+
+  expect(video.cast(obj)).toMatchObject(obj)
+})
