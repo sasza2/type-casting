@@ -1,18 +1,18 @@
 # type-casting
 
-Library for casting and validating data.
+Library for cast and validating data.
 
 ## Example
 
 ```js
-import Factory, { Param } from 'type-casting'
+import Factory, { Type } from 'type-casting'
 
 const user = Factory({
-  id: Param.Int({ required: true }),
-  name: Param.String,
-  surname: Param.String({ required: true }),
-  newsletter: Param.Bool({ default: true }),
-  age: Param.Int,
+  id: Type.Int({ required: true }),
+  name: Type.String,
+  surname: Type.String({ required: true }),
+  newsletter: Type.Bool({ default: true }),
+  age: Type.Int,
 })
 
 // Print { id: 5, name: "abc", surname: "", newsletter: true }
@@ -25,16 +25,16 @@ console.log(user.cast({
 ## API
 Library is exporting three modules:
 - Factory
-- Param
+- Type
 - ERROR
 
 ### `Factory methods`
-- cast(any) - converting to specified type
-- validate(any) - validating specified type
+- cast(any) - cast to specified type
+- validate(any) - validate specified type
 
-### `Param.Array`
+### `Type.Array`
 ```js
-const list = Param.Array(Param.Int({ default: 3, required: true }))
+const list = Type.Array(Type.Int({ default: 3, required: true }))
 // 5, 3, 6
 list.cast([5, 'aaa', 6])
 /*
@@ -48,42 +48,44 @@ list.cast([5, 'aaa', 6])
 list.validate([4, 'aa', 5, null])
 ```
 
-### `Param.Bool`
+### `Type.Bool`
 ```js
-const bool = Param.Bool({ default: true })
+const bool = Type.Bool({ default: true })
 bool.cast() // true
 bool.validate() // { 'error': 'NOT_A_BOOLEAN' }
+bool.cast(true) // true
+bool.cast(false) // false
 ```
 
-### `Param.Float`
+### `Type.Float`
 ```js
-const float = Param.Float()
+const float = Type.Float()
 float.cast('14.5') // 14.5
 float.validate('abc') // { 'error': 'NOT_A_NUMBER' }
 float.validate(500.43) // null
 ```
 
-### `Param.Int`
+### `Type.Int`
 ```js
-const int = Param.Int({ required: true })
+const int = Type.Int({ required: true })
 int.cast() // 0
 int.cast(55) // 55
 int.validate('abcdef') // { 'error': 'NOT_A_NUMBER' }
 ```
 
-### `Param.Object`
+### `Type.Object`
 ```js
-import Factory, { Param } from 'type-casting'
+import Factory, { Type } from 'type-casting'
 
 const video = Factory({
-  id: Param.Int({ required: true }),
-  name: Param.String,
-  length: Param.Int,
-  authors: Param.Array(Param.Object({
-    fullname: Param.String,
-    address: Param.Object({
-      city: Param.String,
-      street: Param.String,
+  id: Type.Int({ required: true }),
+  name: Type.String,
+  length: Type.Int,
+  authors: Type.Array(Type.Object({
+    fullname: Type.String,
+    address: Type.Object({
+      city: Type.String,
+      street: Type.String,
     }),
   })),
 })
@@ -92,45 +94,45 @@ video.cast(...)
 video.validate(...)
 ```
 
-or params could be defined as:
+or types could be defined as:
 
 ```js
-import { Param } from 'type-casting'
+import { Type } from 'type-casting'
 
-Param.set('Address', Param.Object({
-  city: Param.String,
-  street: Param.String,
+Type.set('Address', Type.Object({
+  city: Type.String,
+  street: Type.String,
 }))
 
-Param.set('Author', Param.Object({
-  fullname: Param.String,
-  address: Param.Address,
+Type.set('Author', Type.Object({
+  fullname: Type.String,
+  address: Type.Address,
 }))
 
-Param.set('Authors', Param.Array(Param.Author))
+Type.set('Authors', Type.Array(Type.Author))
 
-Param.set('Video', Param.Object({
-  id: Param.Int({ required: true }),
-  name: Param.String,
-  length: Param.Int,
-  authors: Param.Authors,
+Type.set('Video', Type.Object({
+  id: Type.Int({ required: true }),
+  name: Type.String,
+  length: Type.Int,
+  authors: Type.Authors,
 }))
 
-Param.Video.cast(...)
+Type.Video.cast(...)
 ```
 
-### `Param.String`
+### `Type.String`
 ```js
-const string = Param.String({ required: true })
+const string = Type.String({ required: true })
 string.cast() // ''
 string.cast(55) // '55'
 string.cast('aaa') // 'aaa'
 string.validate() // { error: ERROR.REQUIRED_BUT_EMPTY }
 ```
 
-### `Param.set`
+### `Type.set`
 ```js
-Param.set('name', Param)
+Type.set('name', Type)
 ```
 
 ### `ERROR`
@@ -141,10 +143,15 @@ NOT_AN_ARRAY,
 NOT_AN_OBJECT,
 REQUIRED_BUT_EMPTY,
 NOT_A_BOOLEAN,
-NOT_PARAM_TYPE,
+NOT_VALID_TYPE,
 ```
 
 ## Testing
 ```
 npm run test
+```
+
+## Building
+```
+npm run build
 ```

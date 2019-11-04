@@ -1,8 +1,15 @@
 {
   "name": "type-casting",
-  "version": "1.0.5",
-  "description": "",
-  "keywords": [],
+  "version": "1.0.0",
+  "description": "Library for casting and validating data",
+  "keywords": [
+    "cast",    
+    "type",
+    "validate",
+    "casting",
+    "data",
+    "conversion"
+  ],
   "main": "dist/main.js",
   "scripts": {
     "build": "webpack --mode=production",
@@ -14,7 +21,7 @@
     "type": "git",
     "url": "git+https://github.com/sasza2/type-casting.git"
   },
-  "author": "",
+  "author": "sasza",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/sasza2/type-casting/issues"

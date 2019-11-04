@@ -38,6 +38,8 @@ test('example bool', () => {
   const bool = Type.Bool({ default: true })
   expect(bool.cast()).toBeTruthy()
   expect(bool.validate()).toMatchObject({ error: ERROR.NOT_A_BOOLEAN })
+  expect(bool.cast(false)).toBeFalsy()
+  expect(bool.cast(true)).toBeTruthy()
 })
 
 test('example float', () => {
