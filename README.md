@@ -39,7 +39,9 @@ Library is exporting three modules:
 
 ### `Type.Array`
 ```js
-const list = Type.Array(Type.Int({ default: 3, required: true }))
+const list = Type.Array(
+  Type.Int({ default: 3, required: true })
+).options({ default: [1, 2]})
 // 5, 3, 6
 list.cast([5, 'aaa', 6])
 /*
@@ -51,6 +53,7 @@ list.cast([5, 'aaa', 6])
 }
 */
 list.validate([4, 'aa', 5, null])
+list.cast() // [1, 2]
 ```
 
 ### `Type.Bool`

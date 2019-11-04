@@ -77,3 +77,14 @@ test('array cast required', () => {
   const strDefault = ArrayType(StringType.options({ default: 'xyz' }))
   expect(strDefault.cast([null, 'aa', null])).toMatchObject(['xyz', 'aa', 'xyz'])
 })
+
+test('array one item', () => {
+  const numbers = ArrayType(IntType)
+  expect(numbers.cast(5)).toMatchObject([5])
+  expect(numbers.cast('14')).toMatchObject([14])
+})
+
+test('array default', () => {
+  const numbers = ArrayType(IntType).options({ default: [1, 2] })
+  expect(numbers.cast()).toMatchObject([1, 2])
+})

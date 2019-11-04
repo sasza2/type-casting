@@ -1,7 +1,12 @@
 
 import ERROR from '../errors'
 import {
-  invokeType, requiredButEmpty, shouldBeOmit, isValidType,
+  defaultValue,
+  defaultEmptyValue,
+  invokeType,
+  requiredButEmpty,
+  shouldBeOmit,
+  isValidType,
 } from './helpers'
 
 export const validate = (value, type, options = {}) => {
@@ -21,14 +26,27 @@ export const validate = (value, type, options = {}) => {
   return errors.length ? { errors } : null
 }
 
+const castWhenOneItem = (value, type) => {
+  if (Array.isArray(value)) return value
+
+  if (value !== null && value !== undefined) {
+    const child = type.cast(value)
+    return child === null ? [] : [child]
+  }
+
+  return null
+}
+
 export const cast = (value, type, options = {}) => {
-  if (shouldBeOmit(value, options)) return null
-  if (!Array.isArray(value)) return []
+  if (shouldBeOmit(value, options)) return defaultEmptyValue(options)
 
   const toType = invokeType(type)
-  if (!isValidType(toType)) return []
+  if (!isValidType(toType)) return defaultValue(options, [])
 
-  return value
+  const valueNext = castWhenOneItem(value, toType)
+  if (!valueNext) return defaultValue(options, [])
+
+  return valueNext
     .map((curr) => toType.cast(curr))
     .filter((curr) => curr !== null)
 }

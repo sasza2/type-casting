@@ -75,3 +75,12 @@ test('object cast user', () => {
 
   expect(user.cast({ id: 1 })).toMatchObject({ id: 1, email: '' })
 })
+
+test('object cast form', () => {
+  const form = ObjectType({
+    answers: ArrayType(IntType).options({ required: true }),
+    other: StringType,
+  })
+
+  expect(form.cast({ other: 'abc' })).toMatchObject({ other: 'abc', answers: [] })
+})
