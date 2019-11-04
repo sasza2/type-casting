@@ -2,6 +2,11 @@
 
 Library for cast and validating data.
 
+## Installing
+```
+npm install type-casting
+```
+
 ## Example
 
 ```js
