@@ -1,5 +1,5 @@
 import ERROR from '../errors'
-import StringParam, { validate } from './StringParam'
+import StringType, { validate } from './StringType'
 
 test('string validate', () => {
   expect(validate(55)).toBeNull()
@@ -15,7 +15,7 @@ test('string validate empty', () => {
 })
 
 test('string cast', () => {
-  const str = StringParam()
+  const str = StringType()
   expect(str.cast('555.44')).toEqual('555.44')
   expect(str.cast(-3.44)).toEqual('-3.44')
   expect(str.cast('15')).toEqual('15')
@@ -24,7 +24,7 @@ test('string cast', () => {
 })
 
 test('int cast required', () => {
-  const str = StringParam.options({ required: true })
+  const str = StringType.options({ required: true })
   expect(str.cast()).toEqual('')
   expect(str.cast('0')).toEqual('0')
   expect(str.cast('144')).toEqual('144')

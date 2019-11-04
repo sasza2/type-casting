@@ -1,5 +1,5 @@
 import ERROR from '../errors'
-import FloatParam, { validate } from './FloatParam'
+import FloatType, { validate } from './FloatType'
 
 test('float validate numbers', () => {
   expect(validate(20.43)).toBeNull()
@@ -15,14 +15,14 @@ test('float validate non numbers', () => {
 })
 
 test('float validate required empty', () => {
-  const number = FloatParam.options({ required: true })
+  const number = FloatType.options({ required: true })
   expect(number.validate(441.1)).toBeNull()
   expect(number.validate('15.41')).toBeNull()
   expect(number.validate()).toMatchObject({ error: ERROR.REQUIRED_BUT_EMPTY })
 })
 
 test('float cast', () => {
-  const number = FloatParam()
+  const number = FloatType()
   expect(number.cast(555.44)).toEqual(555.44)
   expect(number.cast(-3.44)).toEqual(-3.44)
   expect(number.cast('15')).toEqual(15)
@@ -31,7 +31,7 @@ test('float cast', () => {
 })
 
 test('float cast required', () => {
-  const number = FloatParam.options({ required: true })
+  const number = FloatType.options({ required: true })
   expect(number.cast()).toEqual(0)
   expect(number.cast(0)).toEqual(0)
   expect(number.cast(144)).toEqual(144)

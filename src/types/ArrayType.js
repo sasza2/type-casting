@@ -1,7 +1,7 @@
 
 import ERROR from '../errors'
 import {
-  invokeType, requiredButEmpty, shouldBeOmit, isParam,
+  invokeType, requiredButEmpty, shouldBeOmit, isValidType,
 } from './helpers'
 
 export const validate = (value, type, options = {}) => {
@@ -9,8 +9,8 @@ export const validate = (value, type, options = {}) => {
   if (!Array.isArray(value)) return { error: ERROR.NOT_AN_ARRAY }
   const errors = value.reduce((list, curr, index) => {
     const toType = invokeType(type)
-    if (!isParam(toType)) {
-      list.push({ error: ERROR.NOT_PARAM_TYPE })
+    if (!isValidType(toType)) {
+      list.push({ error: ERROR.NOT_VALID_TYPE })
       return list
     }
 
@@ -26,17 +26,17 @@ export const cast = (value, type, options = {}) => {
   if (!Array.isArray(value)) return []
 
   const toType = invokeType(type)
-  if (!isParam(toType)) return []
+  if (!isValidType(toType)) return []
 
   return value
     .map((curr) => toType.cast(curr))
     .filter((curr) => curr !== null)
 }
 
-const ArrayParam = (type, options = {}) => ({
+const ArrayType = (type, options = {}) => ({
   cast: (value) => cast(value, type, options),
   validate: (value) => validate(value, type, options),
-  options: (optionsInternal) => ArrayParam(type, optionsInternal),
+  options: (optionsInternal) => ArrayType(type, optionsInternal),
 })
 
-export default ArrayParam
+export default ArrayType

@@ -5,21 +5,21 @@ import {
 
 export const validate = (value, options = {}) => {
   if (requiredButEmpty(value, options)) return { error: ERROR.REQUIRED_BUT_EMPTY }
-  const number = parseFloat(value, 10)
-  if (Number.isNaN(number)) return { error: ERROR.NOT_A_NUMBER }
+  if (typeof value !== 'boolean') return { error: ERROR.NOT_A_BOOLEAN }
   return null
 }
 
 export const cast = (value, options = {}) => {
   if (shouldBeOmit(value, options)) return defaultEmptyValue(options, null)
-  return parseFloat(value, 10) || defaultValue(options, 0)
+  if (value === null || value === undefined) return defaultValue(options, false)
+  return !!value
 }
 
-const FloatParam = (options) => ({
+const BoolType = (options) => ({
   cast: (value) => cast(value, options),
   validate: (value) => validate(value, options),
 })
 
-FloatParam.options = (options) => FloatParam(options)
+BoolType.options = (options) => BoolType(options)
 
-export default FloatParam
+export default BoolType

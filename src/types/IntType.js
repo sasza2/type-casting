@@ -15,11 +15,11 @@ export const cast = (value, options = {}) => {
   return parseInt(value, 10) || defaultValue(options, 0)
 }
 
-const IntParam = (options) => ({
+const IntType = (options) => ({
   cast: (value) => cast(value, options),
   validate: (value) => validate(value, options),
 })
 
-IntParam.options = (options) => IntParam(options)
+IntType.options = (options) => IntType(options)
 
-export default IntParam
+export default IntType

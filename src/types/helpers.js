@@ -15,4 +15,4 @@ export const defaultEmptyValue = (options) => defaultValue(options, null)
 export const shouldBeOmit = (value, options) => !options.required
   && (value === null || value === undefined)
 
-export const isParam = (param) => !!(param && param.validate && param.cast)
+export const isValidType = (type) => !!(type && type.validate && type.cast)

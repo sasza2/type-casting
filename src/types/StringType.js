@@ -12,11 +12,11 @@ export const cast = (value, options = {}) => {
   return value ? value.toString() : defaultValue(options, '')
 }
 
-const StringParam = (options) => ({
+const StringType = (options) => ({
   cast: (value) => cast(value, options),
   validate: (value) => validate(value, options),
 })
 
-StringParam.options = (options) => StringParam(options)
+StringType.options = (options) => StringType(options)
 
-export default StringParam
+export default StringType

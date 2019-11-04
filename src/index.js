@@ -1,10 +1,11 @@
-import Param from './params'
+import Type from './types'
 
-const factory = (params) => {
-  if (typeof params === 'object') return Param.Object(params)
-  return params()
-}
+const factory = (type) => (
+  typeof type === 'object'
+    ? Type.Object(type)
+    : type()
+)
 
 export { default as ERROR } from './errors'
-export { default as Param } from './params'
+export { default as Type } from './types'
 export default factory

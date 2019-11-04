@@ -1,7 +1,7 @@
-import ObjectParam, { validate } from './ObjectParam'
-import IntParam from './IntParam'
-import StringParam from './StringParam'
-import ArrayParam from './ArrayParam'
+import ObjectType, { validate } from './ObjectType'
+import IntType from './IntType'
+import StringType from './StringType'
+import ArrayType from './ArrayType'
 
 test('object validate user', () => {
   expect(
@@ -12,9 +12,9 @@ test('object validate user', () => {
         surname: 'def',
       },
       {
-        id: IntParam,
-        name: StringParam,
-        surname: StringParam,
+        id: IntType,
+        name: StringType,
+        surname: StringType,
       },
     ),
   ).toBeNull()
@@ -29,11 +29,11 @@ test('object validate user', () => {
         groups: [1, 2, 3],
       },
       {
-        id: IntParam,
-        name: StringParam,
-        surname: StringParam,
-        email: StringParam,
-        groups: ArrayParam(IntParam),
+        id: IntType,
+        name: StringType,
+        surname: StringType,
+        email: StringType,
+        groups: ArrayType(IntType),
       },
     ),
   ).toBeNull()
@@ -52,14 +52,14 @@ test('object validate user', () => {
         },
       },
       {
-        id: IntParam,
-        name: StringParam,
-        surname: StringParam,
-        email: StringParam,
-        groups: ArrayParam(IntParam),
-        address: ObjectParam({
-          street: StringParam,
-          number: IntParam,
+        id: IntType,
+        name: StringType,
+        surname: StringType,
+        email: StringType,
+        groups: ArrayType(IntType),
+        address: ObjectType({
+          street: StringType,
+          number: IntType,
         }),
       },
     ),
@@ -67,10 +67,10 @@ test('object validate user', () => {
 })
 
 test('object cast user', () => {
-  const user = ObjectParam({
-    id: IntParam,
-    name: StringParam,
-    email: StringParam.options({ required: true }),
+  const user = ObjectType({
+    id: IntType,
+    name: StringType,
+    email: StringType.options({ required: true }),
   })
 
   expect(user.cast({ id: 1 })).toMatchObject({ id: 1, email: '' })

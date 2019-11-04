@@ -1,12 +1,12 @@
-import Factory, { ERROR, Param } from '.'
+import Factory, { ERROR, Type } from '.'
 
 test('example test factory', () => {
   const user = Factory({
-    id: Param.Int({ required: true }),
-    name: Param.String,
-    surname: Param.String({ required: true }),
-    newsletter: Param.Bool({ default: true }),
-    age: Param.Int,
+    id: Type.Int({ required: true }),
+    name: Type.String,
+    surname: Type.String({ required: true }),
+    newsletter: Type.Bool({ default: true }),
+    age: Type.Int,
   })
 
   expect(user.cast({
@@ -21,7 +21,7 @@ test('example test factory', () => {
 })
 
 test('example array', () => {
-  const list = Param.Array(Param.Int({ default: 3, required: true }))
+  const list = Type.Array(Type.Int({ default: 3, required: true }))
   expect(list.cast([5, 'aaa', 6])).toMatchObject([5, 3, 6])
 
   expect(
@@ -35,29 +35,29 @@ test('example array', () => {
 })
 
 test('example bool', () => {
-  const bool = Param.Bool({ default: true })
+  const bool = Type.Bool({ default: true })
   expect(bool.cast()).toBeTruthy()
   expect(bool.validate()).toMatchObject({ error: ERROR.NOT_A_BOOLEAN })
 })
 
 test('example float', () => {
-  const float = Param.Float()
+  const float = Type.Float()
   expect(float.cast('14.5')).toEqual(14.5)
   expect(float.validate('abc')).toMatchObject({ error: ERROR.NOT_A_NUMBER })
   expect(float.validate(500.43)).toBeNull()
 })
 
 test('example int', () => {
-  const int = Param.Int({ required: true })
+  const int = Type.Int({ required: true })
   expect(int.cast()).toEqual(0)
   expect(int.cast(55)).toEqual(55)
   expect(int.validate('abcdef')).toMatchObject({ error: ERROR.NOT_A_NUMBER })
 })
 
 test('example object address', () => {
-  const address = Param.Object({
-    city: Param.String,
-    street: Param.String,
+  const address = Type.Object({
+    city: Type.String,
+    street: Type.String,
   })
 
   expect(address.cast({ city: 'aa', street: 'bb' })).toMatchObject({ city: 'aa', street: 'bb' })
@@ -65,14 +65,14 @@ test('example object address', () => {
 
 test('example object', () => {
   const video = Factory({
-    id: Param.Int({ required: true }),
-    name: Param.String,
-    length: Param.Int,
-    authors: Param.Array(Param.Object({
-      fullname: Param.String,
-      address: Param.Object({
-        city: Param.String,
-        street: Param.String,
+    id: Type.Int({ required: true }),
+    name: Type.String,
+    length: Type.Int,
+    authors: Type.Array(Type.Object({
+      fullname: Type.String,
+      address: Type.Object({
+        city: Type.String,
+        street: Type.String,
       }),
     })),
   })
@@ -99,23 +99,23 @@ test('example object', () => {
 })
 
 test('example object own model', () => {
-  Param.set('Address', Param.Object({
-    city: Param.String,
-    street: Param.String,
+  Type.set('Address', Type.Object({
+    city: Type.String,
+    street: Type.String,
   }))
 
-  Param.set('Author', Param.Object({
-    fullname: Param.String,
-    address: Param.Address,
+  Type.set('Author', Type.Object({
+    fullname: Type.String,
+    address: Type.Address,
   }))
 
-  Param.set('Authors', Param.Array(Param.Author))
+  Type.set('Authors', Type.Array(Type.Author))
 
-  Param.set('Video', Param.Object({
-    id: Param.Int({ required: true }),
-    name: Param.String,
-    length: Param.Int,
-    authors: Param.Authors,
+  Type.set('Video', Type.Object({
+    id: Type.Int({ required: true }),
+    name: Type.String,
+    length: Type.Int,
+    authors: Type.Authors,
   }))
 
   const obj = {
@@ -136,11 +136,11 @@ test('example object own model', () => {
     ],
   }
 
-  expect(Param.Video.cast(obj)).toMatchObject(obj)
+  expect(Type.Video.cast(obj)).toMatchObject(obj)
 })
 
 test('example string', () => {
-  const string = Param.String({ required: true })
+  const string = Type.String({ required: true })
   expect(string.cast()).toEqual('')
   expect(string.cast(55)).toEqual('55')
   expect(string.cast('aaa')).toEqual('aaa')

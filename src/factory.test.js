@@ -1,12 +1,12 @@
 import factory from '.'
-import ArrayParam from './params/ArrayParam'
-import IntParam from './params/IntParam'
-import ObjectParam from './params/ObjectParam'
-import StringParam from './params/StringParam'
+import ArrayType from './types/ArrayType'
+import IntType from './types/IntType'
+import ObjectType from './types/ObjectType'
+import StringType from './types/StringType'
 
 test('factory validate user', () => {
   const user = factory({
-    age: IntParam,
+    age: IntType,
   })
 
   expect(user.validate({ age: 20 })).toBeNull()
@@ -15,15 +15,15 @@ test('factory validate user', () => {
 
 test('factory validate book', () => {
   const book = factory({
-    name: StringParam,
-    pages: IntParam,
-    ISBN: StringParam,
-    author: ObjectParam({
-      name: StringParam,
-      surname: StringParam,
-      address: ArrayParam(ObjectParam({
-        street: StringParam,
-        nr: StringParam,
+    name: StringType,
+    pages: IntType,
+    ISBN: StringType,
+    author: ObjectType({
+      name: StringType,
+      surname: StringType,
+      address: ArrayType(ObjectType({
+        street: StringType,
+        nr: StringType,
       })),
     }),
   })
