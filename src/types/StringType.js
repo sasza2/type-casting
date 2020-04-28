@@ -1,14 +1,14 @@
 import ERROR from '../errors'
-import { defaultEmptyValue, defaultValue } from './helpers'
+import { defaultEmptyValue, defaultValue, requiredButEmpty } from './helpers'
 
 export const validate = (value, options = {}) => {
-  if (options.required && !value) return { error: ERROR.REQUIRED_BUT_EMPTY }
+  if (requiredButEmpty(value, options)) return { error: ERROR.REQUIRED_BUT_EMPTY }
   if (!value) return { error: ERROR.IS_EMPTY }
   return null
 }
 
 export const cast = (value, options = {}) => {
-  if (!options.required && !value) return defaultEmptyValue(options)
+  if (!options.required && value === undefined) return defaultEmptyValue(options)
   return value ? value.toString() : defaultValue(options, '')
 }
 
