@@ -1,6 +1,7 @@
 # type-casting
 
-Library for cast and validating data.
+Lightweight Library for cast and validating data.<br />
+Used in https://www.npmjs.com/react-url-sync
 
 ## Installing
 ```
