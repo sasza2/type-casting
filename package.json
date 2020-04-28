@@ -1,6 +1,6 @@
 {
   "name": "type-casting",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Library for casting and validating data",
   "keywords": [
     "cast",
